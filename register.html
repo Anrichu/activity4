@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration - Online Book Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-image: url('library_bg.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #333;
+        }
+
+        .container {
+            width: 60%;
+            margin: 30px auto;
+            background: rgba(255,255,255,0.9);
+            padding: 20px 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #004080;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            width: auto;
+        }
+
+        .form-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-buttons input {
+            padding: 10px 20px;
+            background-color: #004080;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .form-buttons input:hover {
+            background-color: #003366;
+        }
+
+        /* Link styles */
+        a:link, a:visited, a:active {
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: red;
+        }
+    </style>
+
+    <script>
+        function validateForm() {
+            let name = document.forms["regForm"]["name"].value.trim();
+            let password = document.forms["regForm"]["password"].value;
+            let email = document.forms["regForm"]["email"].value.trim();
+            let phone = document.forms["regForm"]["phone"].value.trim();
+
+            let namePattern = /^[A-Za-z\s]{6,}$/;
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            let phonePattern = /^[0-9]{10}$/;
+
+            if (!namePattern.test(name)) {
+                alert("Name must be at least 6 characters and contain only alphabets.");
+                return false;
+            }
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters long.");
+                return false;
+            }
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email (e.g., name@domain.com).");
+                return false;
+            }
+            if (!phonePattern.test(phone)) {
+                alert("Phone number must contain exactly 10 digits.");
+                return false;
+            }
+
+            // ✅ If everything is valid, go to Home Page
+            alert("Registration successful! Redirecting to Home page...");
+            window.location.href = "index.html"; 
+            return false; // prevent default form submission
+        }
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Registration Form</h2>
+        <form name="regForm" method="post" onsubmit="return validateForm()">
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td><input type="text" name="name" required></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input type="password" name="password" required></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><input type="email" name="email" required></td>
+                </tr>
+                <tr>
+                    <td>Phone Number:</td>
+                    <td><input type="tel" name="phone" required></td>
+                </tr>
+                <tr>
+                    <td>Gender:</td>
+                    <td>
+                        <input type="radio" name="gender" value="Male" required> Male
+                        <input type="radio" name="gender" value="Female"> Female
+                    </td>
+                </tr>
+                <tr>
+                    <td>Date of Birth:</td>
+                    <td><input type="date" name="dob" required></td>
+                </tr>
+                <tr>
+                    <td>Languages Known:</td>
+                    <td>
+                        <input type="checkbox" name="lang" value="English"> English
+                        <input type="checkbox" name="lang" value="Tamil"> Tamil
+                        <input type="checkbox" name="lang" value="Hindi"> Hindi
+                    </td>
+                </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td><textarea name="address" rows="4" required></textarea></td>
+                </tr>
+            </table>
+            <div class="form-buttons">
+                <input type="submit" value="Register"><br><br>
+                <input type="reset" value="Reset">
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
