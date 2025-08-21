@@ -77,15 +77,6 @@
     .form-buttons input:hover {
       background-color: #003366;
     }
-
-    /* Link styles */
-    a:link, a:visited, a:active {
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-      color: red;
-    }
   </style>
 </head>
 <body>
@@ -159,20 +150,20 @@
     function validateForm() {
       let valid = true;
 
-      // clear errors
+      // Clear old errors
       document.querySelectorAll(".error").forEach(el => el.textContent = "");
 
       // Name validation
       let name = document.forms["regForm"]["name"].value.trim();
       if (!/^[A-Za-z\s]{6,}$/.test(name)) {
-        document.getElementById("nameError").textContent = "Name must be at least 6 characters and alphabets only.";
+        document.getElementById("nameError").textContent = "Name must be at least 6 characters (alphabets only).";
         valid = false;
       }
 
       // Password validation
       let password = document.forms["regForm"]["password"].value.trim();
       if (password.length < 6) {
-        document.getElementById("passwordError").textContent = "Password must be at least 6 characters long.";
+        document.getElementById("passwordError").textContent = "Password must be at least 6 characters.";
         valid = false;
       }
 
@@ -184,14 +175,20 @@
         valid = false;
       }
 
-      // Phone validation
+      // Phone number validation
       let phone = document.forms["regForm"]["phone"].value.trim();
       if (!/^[0-9]{10}$/.test(phone)) {
-        document.getElementById("phoneError").textContent = "Phone must be exactly 10 digits.";
+        document.getElementById("phoneError").textContent = "Phone number must be exactly 10 digits.";
         valid = false;
       }
 
-      return valid;
+      // If all validations pass, redirect
+      if (valid) {
+        alert("Registration successful!");
+        window.location.href = "index.html"; // redirect to index.html
+      }
+
+      return false; // prevent normal form submission
     }
   </script>
 
