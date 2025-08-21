@@ -118,11 +118,15 @@
           <td>
             <input type="radio" name="gender" value="Male"> Male
             <input type="radio" name="gender" value="Female"> Female
+            <span class="error" id="genderError"></span>
           </td>
         </tr>
         <tr>
           <td>Date of Birth:</td>
-          <td><input type="date" name="dob"></td>
+          <td>
+            <input type="date" name="dob">
+            <span class="error" id="dobError"></span>
+          </td>
         </tr>
         <tr>
           <td>Languages Known:</td>
@@ -131,11 +135,15 @@
             <input type="checkbox" name="lang" value="Malayalam"> Malayalam
             <input type="checkbox" name="lang" value="Tamil"> Tamil
             <input type="checkbox" name="lang" value="Hindi"> Hindi
+            <span class="error" id="langError"></span>
           </td>
         </tr>
         <tr>
           <td>Address:</td>
-          <td><textarea name="address" rows="4"></textarea></td>
+          <td>
+            <textarea name="address" rows="4" placeholder="Enter your address"></textarea>
+            <span class="error" id="addressError"></span>
+          </td>
         </tr>
       </table>
 
@@ -150,17 +158,17 @@
     function validateForm() {
       let valid = true;
 
-      // Clear old errors
+      // Clear previous errors
       document.querySelectorAll(".error").forEach(el => el.textContent = "");
 
-      // Name validation
+      // Name validation: alphabets + spaces, min 6 chars
       let name = document.forms["regForm"]["name"].value.trim();
       if (!/^[A-Za-z\s]{6,}$/.test(name)) {
         document.getElementById("nameError").textContent = "Name must be at least 6 characters (alphabets only).";
         valid = false;
       }
 
-      // Password validation
+      // Password validation: min 6 chars
       let password = document.forms["regForm"]["password"].value.trim();
       if (password.length < 6) {
         document.getElementById("passwordError").textContent = "Password must be at least 6 characters.";
@@ -175,20 +183,64 @@
         valid = false;
       }
 
-      // Phone number validation
+      // Phone number validation: exactly 10 digits
       let phone = document.forms["regForm"]["phone"].value.trim();
       if (!/^[0-9]{10}$/.test(phone)) {
         document.getElementById("phoneError").textContent = "Phone number must be exactly 10 digits.";
         valid = false;
       }
 
-      // If all validations pass, redirect
-      if (valid) {
-        alert("Registration successful!");
-        window.location.href = "index.html"; // redirect to index.html
+      // Gender validation: one must be selected
+      let genderMale = document.forms["regForm"]["gender"][0].checked;
+      let genderFemale = document.forms["regForm"]["gender"][1].checked;
+      if (!genderMale && !genderFemale) {
+        document.getElementById("genderError").textContent = "Please select a gender.";
+        valid = false;
       }
 
-      return false; // prevent normal form submission
+      // DOB validation: not empty and user must be at least 10 years old (optional, you can remove age check if you want)
+      let dob = document.forms["regForm"]["dob"].value;
+      if (!dob) {
+        document.getElementById("dobError").textContent = "Please select your date of birth.";
+        valid = false;
+      } else {
+        const birthDate = new Date(dob);
+        const today = new Date();
+        const age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (age < 10 || (age === 10 && m < 0)) {
+          document.getElementById("dobError").textContent = "You must be at least 10 years old.";
+          valid = false;
+        }
+      }
+
+      // Languages known: at least one must be checked
+      let langs = document.forms["regForm"]["lang"];
+      let langChecked = false;
+      for (let i = 0; i < langs.length; i++) {
+        if (langs[i].checked) {
+          langChecked = true;
+          break;
+        }
+      }
+      if (!langChecked) {
+        document.getElementById("langError").textContent = "Select at least one language.";
+        valid = false;
+      }
+
+      // Address: not empty, min 10 chars
+      let address = document.forms["regForm"]["address"].value.trim();
+      if (address.length < 10) {
+        document.getElementById("addressError").textContent = "Address must be at least 10 characters.";
+        valid = false;
+      }
+
+      if (valid) {
+        alert("Registration successful!");
+        window.location.href = "index.html";
+      }
+
+      return false; // prevent form submission
     }
   </script>
 
